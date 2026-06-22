@@ -69,3 +69,30 @@ Height: 240
 
 styling
 SpecialEffect: fmSpecialEffectFlat
+
+
+lägg till macro
+
+Insert → Module
+
+Sub OpenSavePopup()
+
+    frmSaveExport.Show
+
+End Sub
+
+lägg till excel 
+
+Excel → Preferences → Ribbon & Toolbar
+
+slå på developer
+
+lägg till knapp
+
+Developer → Insert → Button
+
+lägg till macro
+OpenSavePopup
+
+namn 
+export knapp
