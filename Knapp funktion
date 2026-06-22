@@ -1,0 +1,68 @@
+Private selectedFolder As String
+
+Private Sub btnBrowse_Click()
+
+    Dim fd As FileDialog
+
+    Set fd = Application.FileDialog(msoFileDialogFolderPicker)
+
+    fd.Title = "Choose Save Folder"
+
+    If fd.Show = -1 Then
+        selectedFolder = fd.SelectedItems(1)
+        txtFolder.Text = selectedFolder
+    End If
+
+End Sub
+
+Private Sub btnCancel_Click()
+
+    Unload Me
+
+End Sub
+
+Private Sub btnSave_Click()
+
+    Dim fileName As String
+    Dim xlsxPath As String
+    Dim pdfPath As String
+
+    fileName = Trim(txtFileName.Text)
+
+    If fileName = "" Then
+        MsgBox "Please enter a file name.", vbExclamation
+        Exit Sub
+    End If
+
+    If selectedFolder = "" Then
+        MsgBox "Please choose a save location.", vbExclamation
+        Exit Sub
+    End If
+
+    xlsxPath = selectedFolder & "/" & fileName & ".xlsx"
+    pdfPath = selectedFolder & "/" & fileName & ".pdf"
+
+    Application.DisplayAlerts = False
+
+    ' Save Excel copy
+    ThisWorkbook.SaveCopyAs xlsxPath
+
+    ' Export active sheet as PDF
+    ActiveSheet.ExportAsFixedFormat _
+        Type:=xlTypePDF, _
+        Filename:=pdfPath, _
+        Quality:=xlQualityStandard
+
+    Application.DisplayAlerts = True
+
+    MsgBox "Files saved successfully!", vbInformation
+
+    Unload Me
+
+End Sub
+
+Private Sub UserForm_Initialize()
+
+    txtFileName.Text = Replace(ThisWorkbook.Name, ".xlsm", "")
+
+End Sub
